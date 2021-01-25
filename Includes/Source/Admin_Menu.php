@@ -440,8 +440,6 @@ final class Admin_Menu {
 
 			// Get all submenus assigned to the menu.
 			$submenus   = $this->get_submenus( $menu_slug, 'slug', true );
-			
-			var_dump( $menu_slug );
 
 			if( (string) $menu_slug === 'index.php' ) :
 				return $this->remove_dashboard( $capability, $remove_submenus, $invert, $redirect );
@@ -450,11 +448,11 @@ final class Admin_Menu {
 			elseif( false !== $submenus || false !== $remove_submenus ) :
 				// Set submenus from parameter, if given.
 				if( is_array( $remove_submenus ) && sizeof( $remove_submenus ) > 0 ) {
-					$remove =  $invert ? array_diff( $submenus, $remove_submenus ) : $remove_submenus; var_dump( $remove );
+					$remove =  $invert ? array_diff( $submenus, $remove_submenus ) : $remove_submenus;
 				} elseif( is_string( $remove_submenus ) ) {
-					$remove = $invert ? array_diff( $submenus, [$remove_submenus] ) : [$remove_submenus]; var_dump( $remove );
+					$remove = $invert ? array_diff( $submenus, [$remove_submenus] ) : [$remove_submenus];
 				} else {
-					$remove = (array) $submenus; var_dump( $remove );
+					$remove = (array) $submenus;
 				}
 
 				// Iterate over all submenus to be removed.
