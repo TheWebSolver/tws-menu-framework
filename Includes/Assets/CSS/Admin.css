@@ -1,0 +1,51 @@
+/**
+ * Admin CSS Styling for dashboard.
+ */
+
+ #toplevel_page_tws_dashboard:hover {
+    background-color: transparent !important;
+}
+.folded #toplevel_page_tws_dashboard {
+    background-color: transparent !important;
+}
+#toplevel_page_tws_dashboard a {
+    color: var(--primary) !important;
+    background-color: transparent !important;
+}
+body:not(.folded) #toplevel_page_tws_dashboard .wp-menu-image {
+    width: 100% !important;
+    height: 115px !important;
+    float: none !important;
+    overflow: hidden;
+}
+#toplevel_page_tws_dashboard .wp-menu-name {
+    text-transform: capitalize;
+    text-align: center;
+    color: var(--secondary);
+    line-height: 1.8em;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px !important;
+}
+#toplevel_page_tws_dashboard .wp-menu-name span {
+    width: 100%;
+}
+#toplevel_page_tws_dashboard .wp-menu-name .hz_userName {
+    font-size: 1.2em;
+    font-weight: 700;
+}
+#toplevel_page_tws_dashboard .wp-menu-name .hz_userRole {
+    font-size: smaller;
+    color: var(--dark-gray);
+}
+#toplevel_page_tws_dashboard .wp-menu-image img {
+    max-width: 100px;
+    border-radius: 50%;
+    opacity: 1;
+}
+.folded #toplevel_page_tws_dashboard .wp-menu-image img {
+    height: 30px;
+    padding-top: 0;
+}
