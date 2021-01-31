@@ -94,7 +94,7 @@ final class Plugin {
 
         // Execute all necessary codes in admin menu hook.
         if( is_admin() ) {
-            add_action( 'admin_menu', [$this, 'includes'], -99 );
+            add_action( 'admin_menu', [$this, 'init_admin_menu'], -99 );
         }
     }
 
@@ -119,7 +119,7 @@ final class Plugin {
     }
 
     /**
-     * Includes menu files.
+     * Init admin menu.
      *
      * @return void
      * 
@@ -127,9 +127,9 @@ final class Plugin {
      * 
      * @access public
      */
-    public function includes() {
-        require_once __DIR__ . '/Source/Admin_Menu.php';
-        require_once __DIR__ . '/API/API.php';
+    public function init_admin_menu() {
+        require_once __DIR__ . '/Source/Admin-Menu.php';
+        require_once __DIR__ . '/API/Admin-Menu-API.php';
 
         // Initialize admin menu class.
         admin_menu();
