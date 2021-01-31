@@ -96,6 +96,16 @@ final class Plugin {
         if( is_admin() ) {
             add_action( 'admin_menu', [$this, 'init_admin_menu'], -99 );
         }
+
+        /**
+         * Introduced admin bar menu API.
+         * 
+         * Since admin bar can be displayed on frontend also,
+         * omit `is_admin()` conditional check.
+         * 
+         * @since 1.1
+         */
+        add_action( 'admin_bar_menu', [$this, 'init_admin_bar'], -99 );
     }
 
     /**
@@ -141,6 +151,25 @@ final class Plugin {
 
         // Add styles and scripts.
         add_action( 'admin_enqueue_scripts', [$this, 'add_scripts'] );
+    }
+
+    /**
+     * Init admin menu bar.
+     * 
+     * @param \WP_Admin_Bar $admin_bar Passed as reference from hook.
+     *
+     * @return void
+     * 
+     * @since 1.1
+     * 
+     * @access public
+     */
+    public function init_admin_bar( \WP_Admin_Bar $admin_bar ) {
+        require_once __DIR__ . '/Source/Admin-Bar.php';
+        require_once __DIR__ . '/API/Admin-Bar-API.php';
+
+        // Initialize admin bar class.
+        Admin_Bar::init()->set( $admin_bar );
     }
 
     /**

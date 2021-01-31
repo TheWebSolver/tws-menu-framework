@@ -3,7 +3,7 @@
  * Plugin Name: The Web Solver Admin Menu Framework
  * Plugin URI: https://github.com/TheWebSolver/tws-menu-framework
  * Description: <b>WordPress Admin Menu framework</b> to manage admin menus.
- * Version: 1.0
+ * Version: 1.1
  * Author: Shesh Ghimire
  * Author URI: https://www.linkedin.com/in/sheshgh/
  * Requires at least: 5.3
@@ -80,7 +80,7 @@ final class HZFEX_Menu_Framework {
         define( 'HZFEX_MENU_URL', plugin_dir_url( __FILE__ ) );
         define( 'HZFEX_MENU_BASENAME', plugin_basename( __FILE__ ) );
         define( 'HZFEX_MENU_PATH', plugin_dir_path( __FILE__ ) );
-        define( 'HZFEX_MENU_VERSION', '1.0' );
+        define( 'HZFEX_MENU_VERSION', '1.1' );
         define( 'HZFEX_ADMIN_MENU', 'tws_dashboard' );
         return $this;
     }
