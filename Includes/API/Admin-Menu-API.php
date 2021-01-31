@@ -13,7 +13,7 @@
  * This function will always return false because
  * the first function already removes "Dashboard" menu.
  * 
- * @package TheWebSolver\Core\Menu_Framework\Functions\API
+ * @package TheWebSolver\Core\Menu_Framework\Admin_Menu\Functions\API
  * 
  * -----------------------------------
  * DEVELOPED-MAINTAINED-SUPPPORTED BY

@@ -11,7 +11,7 @@
  *     5: ID.
  *     6: Icon for top level menu.
  * 
- * @package TheWebSolver\Core\Menu_Framework\Class\API
+ * @package TheWebSolver\Core\Menu_Framework\Admin_Menu\Class\API
  * 
  * -----------------------------------
  * DEVELOPED-MAINTAINED-SUPPPORTED BY
@@ -446,14 +446,8 @@ final class Admin_Menu {
 			elseif( (string) $menu_slug === 'themes.php' ) :
 				return $this->remove_appearance( $capability, $remove_submenus, $invert, $redirect );
 			elseif( false !== $submenus || false !== $remove_submenus ) :
-				// Set submenus from parameter, if given.
-				if( is_array( $remove_submenus ) && sizeof( $remove_submenus ) > 0 ) {
-					$remove =  $invert ? array_diff( $submenus, $remove_submenus ) : $remove_submenus;
-				} elseif( is_string( $remove_submenus ) ) {
-					$remove = $invert ? array_diff( $submenus, [$remove_submenus] ) : [$remove_submenus];
-				} else {
-					$remove = (array) $submenus;
-				}
+				// Get submenus that needs to be removed.
+				$remove = $this->_get_submenus_to_remove( $submenus, $remove_submenus, $invert );
 
 				// Iterate over all submenus to be removed.
 				foreach( $remove as $slug ) :
@@ -506,14 +500,9 @@ final class Admin_Menu {
 
 		// Remove submenus if found.
 		if( false !== $submenus || false !== $remove_submenus ) :
-			// Set submenus from parameter, if given.
-			if( is_array( $remove_submenus ) && sizeof( $remove_submenus ) > 0 ) {
-				$remove =  $invert ? array_diff( $submenus, $remove_submenus ) : $remove_submenus;
-			} elseif( is_string( $remove_submenus ) ) {
-				$remove = $invert ? array_diff( $submenus, [$remove_submenus] ) : [$remove_submenus];
-			} else {
-				$remove = (array) $submenus;
-			}
+			// Get submenus that needs to be removed.
+			$remove = $this->_get_submenus_to_remove( $submenus, $remove_submenus, $invert );
+
 			// Iterate over submenus and remove.
 			foreach( $remove as $r ) :
 				if ( $pagenow === (string) $r && $redirect ) {
@@ -571,14 +560,8 @@ final class Admin_Menu {
 		$submenus   = array_map( $customize, $submenus );
 		
 		if( false !== $submenus || false !== $remove_submenus ) :
-			// Set submenus from parameter, if given.
-			if( is_array( $remove_submenus ) && sizeof( $remove_submenus ) > 0 ) {
-				$remove =  $invert ? array_diff( $submenus, $remove_submenus ) : $remove_submenus;
-			} elseif( is_string( $remove_submenus ) ) {
-				$remove = $invert ? array_diff( $submenus, [$remove_submenus] ) : [$remove_submenus];
-			} else {
-				$remove = (array) $submenus;
-			}
+			// Get submenus that needs to be removed.
+			$remove = $this->_get_submenus_to_remove( $submenus, $remove_submenus, $invert );
 
 			foreach( $remove as $r ) :
 				// Redirect and remove pages, if given.
@@ -598,6 +581,35 @@ final class Admin_Menu {
 		endif;
 		remove_menu_page( 'themes.php' );
 
+	}
+
+	/**
+	 * Gets submenus to remove.
+	 *
+	 * @param string[] $submenus                       An array of submenus that belongs to the parent menu.
+	 * @param string|string[]|bool $remove_submenus    Whether to remove submenus.
+	 * * @type `bool` **true**                         Removes all submenus that belong to the parent menu.
+	 * * @type `bool` **False**                        Won't remove submenus that belong to the parent menu.
+	 * * @type `string`                                Remove the particular subemnu that belongs to the parent menu.
+	 * * @type `string[]`                              Remove submenus given in array that belongs to the parent menu.
+	 * @param bool $invert                             Whether to invert data from parameter `$remove_submenus`.
+	 *                                                 Inverting will remove submenus except those in `$remove_submenus`.
+	 * 
+	 * @return string[]                                An array of submenus to be removed.
+	 * 
+	 * @since 1.0
+	 * 
+	 * @access private
+	 */
+	private function _get_submenus_to_remove( $submenus, $remove_submenus, $invert ) {
+		if( is_array( $remove_submenus ) && sizeof( $remove_submenus ) > 0 ) {
+			$remove =  $invert ? array_diff( $submenus, $remove_submenus ) : $remove_submenus;
+		} elseif( is_string( $remove_submenus ) ) {
+			$remove = $invert ? array_diff( $submenus, [$remove_submenus] ) : [$remove_submenus];
+		} else {
+			$remove = $submenus;
+		}
+		return $remove;
 	}
 
 	/**
