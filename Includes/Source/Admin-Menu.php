@@ -449,7 +449,7 @@ final class Admin_Menu {
 				// Get submenus that needs to be removed.
 				$remove = $this->_get_submenus_to_remove( $submenus, $remove_submenus, $invert );
 
-				// Iterate over all submenus to be removed.
+				// Iterate over all submenus to remove and redirect pages, remove submenus.
 				foreach( $remove as $slug ) :
 					// Redirect removed submenus if set.
 					if( $redirect ) $this->redirect( $slug, $redirect_url );
@@ -503,7 +503,7 @@ final class Admin_Menu {
 			// Get submenus that needs to be removed.
 			$remove = $this->_get_submenus_to_remove( $submenus, $remove_submenus, $invert );
 
-			// Iterate over submenus and remove.
+			// Iterate over all submenus to remove and redirect pages, remove submenus.
 			foreach( $remove as $r ) :
 				if ( $pagenow === (string) $r && $redirect ) {
 					wp_redirect( html_entity_decode( esc_url_raw( add_query_arg(
@@ -563,6 +563,7 @@ final class Admin_Menu {
 			// Get submenus that needs to be removed.
 			$remove = $this->_get_submenus_to_remove( $submenus, $remove_submenus, $invert );
 
+			// Iterate over all submenus to remove and redirect pages, remove submenus.
 			foreach( $remove as $r ) :
 				// Redirect and remove pages, if given.
 				if( $pagenow === $r || ( is_customize_preview() && $r === 'customize.php' ) ) {
@@ -580,7 +581,6 @@ final class Admin_Menu {
 			endforeach;
 		endif;
 		remove_menu_page( 'themes.php' );
-
 	}
 
 	/**
@@ -597,7 +597,7 @@ final class Admin_Menu {
 	 * 
 	 * @return string[]                                An array of submenus to be removed.
 	 * 
-	 * @since 1.0
+	 * @since 1.1
 	 * 
 	 * @access private
 	 */
