@@ -59,7 +59,7 @@ final class Admin_Menu {
 	 * 
 	 * @access private
 	 */
-    private $menu_slug = HZFEX_ADMIN_MENU;
+	private $menu_slug = HZFEX_ADMIN_MENU;
 
 	/**
 	 * Dashboard menu class.
@@ -242,7 +242,7 @@ final class Admin_Menu {
 			'Welcome',
 			sprintf( '<span class="hz_userName">%s</span><span class="hz_userRole">%s</span>', $title, $subtitle ),
 			$capability,
-			HZFEX_ADMIN_MENU,
+			$this->menu_slug,
 			[$this, 'load_dashboard_content'],
 			$avatar,
 			0.0001
@@ -264,11 +264,11 @@ final class Admin_Menu {
 	 * @access public
 	 */
 	public function remove_dashboard_submenus() {
-		if( $this->exists( HZFEX_ADMIN_MENU, true ) ) {
-			$submenus = $this->get_submenus( HZFEX_ADMIN_MENU, 'slug', true );
+		if( $this->exists( $this->menu_slug, true ) ) {
+			$submenus = $this->get_submenus( $this->menu_slug, 'slug', true );
 			if( false !== $submenus ) {
 				foreach( $submenus as $submenu_slug ) {
-					remove_submenu_page( HZFEX_ADMIN_MENU, $submenu_slug );
+					remove_submenu_page( $this->menu_slug, $submenu_slug );
 				}
 			}
 		}
