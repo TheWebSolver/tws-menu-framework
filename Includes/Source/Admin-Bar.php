@@ -194,20 +194,65 @@ final class Admin_Bar {
     }
 
     /**
-     * Sets new admin bar menu (node) data.
+     * Adds admin bar menu (node) or group.
      * 
      * ### NOTE: Use with `admin_bar_menu` hook with high priority `1000`.
      *
-     * @param array $menu Admin menu data in an array.
+     * @param string $id              Unique ID for admin bar menu.
+     * @param string $title           Accepts HTML formatted title.
+     * @param string $href            Target URL link.
+     * @param boolean $group          Set menu as group only. Defaults to `false`.
+     * @param boolean $parent         Set menu as child to this. Defaults to `false`.
+     * @param array $meta             Accepted values are:
+     * * @type `string` **class**     HTML `class` attribute.
+     * * @type `string` **lang**      HTML `lang` attribute.
+     * * @type `string` **dir**       HTML link `dir` attribute for text directionality.
+     * * @type `string` **title**     HTML link `title` attribute.
+     * * @type `string` **rel**       HTML link `rel` attribute.
+     * * @type `string` **onclick**   HTML link `onclick` attribute.
+     * * @type `string` **target**    HTML `target` attribute to display the linked URL.
+     * * @type `mixed` **tabindex**   Numeric value. Whether admin bar is tabbable using keyboard   tab key.
      * 
-     * @return void
+     * @return true
      * 
      * @since 1.1
      * 
      * @access public
      */
-    public function add( array $menu ) {
+    public function add( string $id, string $title, string $href, bool $group = false, bool $parent = false, array $meta = [] ) {
+        // Set class.
+        $class = 'hz_ab_menu';
+        if( isset( $meta['class'] ) && ! empty( $meta['class'] ) ) {
+            $class .= ' ' . $meta['class'];
+
+            // Remove class. Add it separately.
+            unset( $meta['class'] );
+        }
+        $menu = [
+            'id'        => $id,
+            'meta'      => [ 'class' => $class ],
+            'parent'    => $parent,
+        ];
+
+        if( sizeof( $meta ) > 0 ) {
+            foreach( $meta as $key => $arg ) {
+                // Only continue if arg has value.
+                if( empty( $arg ) ) {
+                    continue;
+                }
+                // Set meta value from arg.
+                $menu['meta'][$key] = $arg;
+            }
+        }
+        // Check if is group and set args value accordingly.
+        if( $group ) {
+            $menu['group']     = true;
+        } else {
+            $menu['title']     = $title;
+            $menu['href']      = $href;
+        }
         $this->add[ $menu[ 'id' ] ] = $menu;
+        return true;
     }
 
     /**
@@ -363,7 +408,7 @@ final class Admin_Bar {
      * 
      * @access public
      */
-    public function get_node_with_parent( $node_id ) {
+    public function get_node_with_parent( string $node_id ): array {
         $nodes  = $this->admin_bar->get_nodes();
         return array_filter( $nodes, function( $node ) use ( $node_id ) {
             return $node->id === $node_id && isset( $node->parent ) && $node->parent;
@@ -389,8 +434,8 @@ final class Admin_Bar {
             'title' => 'Node IDs'
         ];
 
-        // Set parent menu args to add to admin bar.
-        $this->add( $parent_menu );
+        // Add parent admin bar menu (node).
+        $this->admin_bar->add_node( $parent_menu );
 
         // Iterate and set all node IDs as child to parent menu.
         foreach ( $nodes as $node ) {
@@ -410,8 +455,8 @@ final class Admin_Bar {
                 $child_menu[ 'parent' ] = $this->debug_id;
             }
 
-            // Set child menu args to add to admin bar.
-            $this->add( $child_menu );
+            // Add child admin bar menus (nodes).
+            $this->admin_bar->add_node( $child_menu );
         }
     }
 
