@@ -37,7 +37,7 @@ use TheWebSolver\Core\Menu\Admin_Menu;
  * 
  * Alias for:
  * ```
- * TheWebSolver\Core\Menu\Admin_Menu::init();
+ * \TheWebSolver\Core\Menu\Admin_Menu::init();
  * ```
  *
  * @return Admin_Menu
